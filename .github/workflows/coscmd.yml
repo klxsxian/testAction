@@ -1,0 +1,34 @@
+name: GitHub Actions With COS CMD Demo
+on: [push]
+
+jobs:
+  coscmd-Actions:
+    runs-on: ubuntu-latest
+    environment:
+      name: env
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+        
+      - name: Check if manifest exists
+        run : |
+          pwd
+          ls
+          
+      - name: Upload COS
+        uses: zkqiang/tencent-cos-action@v0.1.0
+        with:
+          args: delete -r -f fileupload/ && upload -rs ./sample --include local.txt fileupload/
+          secret_id: ${{ secrets.UPTOC_UPLOADER_KEYID }}
+          secret_key: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
+          bucket: zjw-cos-1302205113
+          region: ap-guangzhou
+          
+      - name: download COS
+        uses: zkqiang/tencent-cos-action@v0.1.0
+        with:
+          args: download fileupload/local.txt ./
+          secret_id: ${{ secrets.UPTOC_UPLOADER_KEYID }}
+          secret_key: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
+          bucket: zjw-cos-1302205113
+          region: ap-guangzhou
