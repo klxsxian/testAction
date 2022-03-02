@@ -1,0 +1,18 @@
+name: GitHub Actions With COS Upload Demo
+on: [push]
+jobs:
+  Test-Upload-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: cosUpload
+        uses: saltbo/uptoc@master
+        with:
+          driver: cos
+          region: ap-guangzhou
+          bucket: zjw-cos-1302205113
+          exclude: .cache,test
+          dist: ./sample/local.txt
+          saveroot: python
+        env:
+          UPTOC_UPLOADER_AK: ${{ secrets.UPTOC_UPLOADER_KEYID }}
+          UPTOC_UPLOADER_SK: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
