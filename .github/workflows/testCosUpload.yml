@@ -9,9 +9,6 @@ jobs:
       - name: Check if manifest exists
         run : |
           pwd
-          cd ./sample
-          ls
-          cd ../..
           ls
       - name: cosUpload
         uses: saltbo/uptoc@master
