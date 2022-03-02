@@ -13,7 +13,7 @@ jobs:
           region: ap-guangzhou
           bucket: zjw-cos-1302205113
           #exclude: .cache,test
-          dist: newFile.txt
+          dist: ./sample/local.txt
           saveroot: python
         env:
           UPTOC_UPLOADER_AK: ${{ secrets.UPTOC_UPLOADER_KEYID }}
