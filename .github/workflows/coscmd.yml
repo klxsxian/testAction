@@ -18,7 +18,7 @@ jobs:
       - name: Upload COS
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: delete -r -f fileupload/ && upload ./sample/local.txt fileupload/
+          args: delete -r -f fileupload/ && upload -rs ./sample --include local.txt fileupload/
           secret_id: ${{ secrets.UPTOC_UPLOADER_KEYID }}
           secret_key: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
           bucket: zjw-cos-1302205113
