@@ -6,9 +6,12 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v2
-      - name: Check if file exists
-        run: |
+      - name: Check if manifest exists
+        run : |
           pwd
+          cd ./sample
+          ls
+          cd ../..
           ls
       - name: cosUpload
         uses: saltbo/uptoc@master
@@ -17,7 +20,7 @@ jobs:
           region: ap-guangzhou
           bucket: zjw-cos-1302205113
           #exclude: .cache,test
-          dist: /home/runner/work/testAction/testAction
+          dist: ./sample
           saveroot: python
         env:
           UPTOC_UPLOADER_AK: ${{ secrets.UPTOC_UPLOADER_KEYID }}
