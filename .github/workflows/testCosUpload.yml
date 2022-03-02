@@ -20,5 +20,5 @@ jobs:
           dist: ./sample
           saveroot: python
         env:
-          UPTOC_UPLOADER_AK: UPTOC_UPLOADER_KEYID
-          UPTOC_UPLOADER_SK: UPTOC_UPLOADER_KEYSECRET
+          UPTOC_UPLOADER_AK: ${{ secrets.UPTOC_UPLOADER_KEYID }}
+          UPTOC_UPLOADER_SK: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
