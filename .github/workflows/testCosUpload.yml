@@ -3,6 +3,8 @@ on: [push]
 jobs:
   Test-Upload-Actions:
     runs-on: ubuntu-latest
+    environment:
+      name: env
     steps:
       - name: checkout code
         uses: actions/checkout@v2
