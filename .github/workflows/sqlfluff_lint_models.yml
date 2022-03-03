@@ -1,0 +1,61 @@
+name: SQLFluff lint dbt data models
+
+on: pull_request
+
+jobs:
+  sqlfluff-lint-models:
+    # runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['ubuntu-latest']
+        python-version: [3.8]
+
+    steps:
+    - name: Checkout PR by removing the merge into main
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+
+    - name: Setup conda environment
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: dbt-sqlfluff-env
+        python-version: ${{ matrix.python-version }}
+        auto-update-conda: true
+        auto-activate-base: false
+        environment-file: environment.yml
+        show-channel-urls: true
+        # use-only-tar-bz2: true
+
+    - name: dbt install deps
+      shell: bash -l {0}
+      run: |
+        dbt deps
+
+    - name: Get changed files
+      id: get_file_changes
+      uses: trilom/file-changes-action@v1.2.3
+      with:
+        output: ' '
+
+    - name: Get changed .sql files in /models to lint
+      id: get_files_to_lint
+      run: |
+        # Set the command in the $() brackets as an output to use in later steps
+        echo "::set-output name=lintees::$(
+        # Issue where grep regular expressions don't work as expected on the
+        # Github Actions shell, check models/ and analysis/ folders seperately
+        echo \
+        $(echo ${{ steps.get_file_changes.outputs.files }} |
+        tr -s ' ' '\n' |
+        grep -E '^models.*[.]sql$' |
+        tr -s '\n' ' ') \
+        )"
+
+    - name: Lint dbt models
+      shell: bash -l {0}
+      if: steps.get_files_to_lint.outputs.lintees != ''
+      run: |
+        sqlfluff lint ${{ steps.get_files_to_lint.outputs.lintees }}

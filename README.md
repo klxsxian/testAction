@@ -28,5 +28,29 @@ pip install -U cos-python-sdk-v5
         在workflows目录新建coscmd.yml,测试通过
         使用需要参考腾讯coscmd相关的命令 参考：https://cloud.tencent.com/document/product/436/10976
 
-    
+#### 6、sqlfluff DBT SQL语法格式正确性的校验
+    6.1 安装依赖包
+        pip install sqlfluff
+        pip install sqlfluff-templater-dbt
 
+    6.2 配置sqlfluff：
+        创建.sqlfluff和.sqlfluffingnore文件
+        更多配置使用参考：https://docs.sqlfluff.com/en/stable/configuration.html
+
+    6.3 使用sqlfluff：
+        示例：检查某个目录下的所以sql文件
+        执行命令：sqlfluff lint path/to/my/sqlfiles
+        
+        step1、执行sqlfluff lint ./models
+        L:  36 | P:   3 | L003 | Indentation not hanging or a multiple of 4 spaces
+        == [models/stg/stg_members.sql] FAIL =========》发现有语法错误
+    
+        step2、修复sql,执行如下命令：
+        sqlfluff fix ./models/stg/stg_members.sql
+
+        step3、再次执行：执行sqlfluff lint ./models   
+        结果：校验通过，说明sqlfluff根据配置的规则，进行了修复
+
+### 7、sqlfluff github cicd校验
+    7.1 在workflows目录新建sqlfluff_lint_models.yml
+    

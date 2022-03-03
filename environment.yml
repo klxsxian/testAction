@@ -1,0 +1,12 @@
+name: dbt-sqlfluff-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - agate=1.6.1
+  - pip
+  - python=3.8
+  - pip:
+    - dbt-postgres
+    - sqlfluff==0.9.1
+    - sqlfluff-templater-dbt==0.9.1
