@@ -1,6 +1,6 @@
 name: SQLFluff lint dbt data models
 
-on: workflow_dispatch
+on: pull_request
 
 jobs:
   sqlfluff-lint-models:
