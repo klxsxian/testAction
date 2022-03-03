@@ -1,0 +1,24 @@
+
+name: 'testAction'
+version: '0.1'
+profile: 'testAction'
+config-version: 2
+
+model-paths: ["models"]
+#analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["data"]
+macro-paths: ["macros"]
+
+target-path: "target"
+#clean-targets:
+#  - "target"
+#  - "dbt_modules"
+#  - "logs"
+#  -
+
+models:
+  testAction:
+    materialized: table
+    staging:
+      materialized: view
