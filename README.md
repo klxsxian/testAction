@@ -53,4 +53,6 @@ pip install -U cos-python-sdk-v5
 
 ### 7、sqlfluff github cicd校验
     7.1 在workflows目录新建sqlfluff_lint_models.yml
-    
+ 
+### dbt安装
+    pip install dbt-postgres
