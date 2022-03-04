@@ -79,13 +79,12 @@ jobs:
     - name: check run_results.json
       run: |
         pwd
-        cat ./target/run_results.json
-        cat ./target/manifest.json
+        ls ./target |grep *.json
 
     - name: Upload COS
       uses: zkqiang/tencent-cos-action@v0.1.0
       with:
-        args: delete -r -f fileupload/ && upload -rs ./target --include manifest.json,run_results.json fileupload/
+        args: upload -rs ./target --include manifest.json,run_results.json fileupload/
         secret_id: ${{ secrets.UPTOC_UPLOADER_KEYID }}
         secret_key: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
         bucket: zjw-cos-1302205113
