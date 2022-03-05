@@ -226,7 +226,6 @@ dmypy.json
 /dbt_packages/dbt_ml_preprocessing/docs/catalog.json
 /dbt_packages/dbt_utils/CHANGELOG.md
 /dbt_packages/metrics/.github/workflows/ci.yml
-/.github/workflows/actived/ci_dbt_full.yml
 /dbt_packages/dbt_utils/.github/CODEOWNERS
 /dbt_packages/metrics/.github/CODEOWNERS
 /dbt_packages/dbt_utils/macros/cross_db_utils/concat.sql
@@ -639,3 +638,4 @@ dmypy.json
 /share/jupyter/nbconvert/templates/lab/static/theme-dark.css
 /share/jupyter/nbconvert/templates/lab/static/theme-light.css
 /etc/jupyter/nbconfig/notebook.d/widgetsnbextension.json
+
