@@ -43,6 +43,8 @@ jobs:
 
       - name: register flow
         run: |
+          pwd
+          ls
           prefect register --project dbt_tutorial -p ./flows/dbtTest.py -n "dbtTest" -l "myAgentLable"
 
       - name: run prefect with dbt
