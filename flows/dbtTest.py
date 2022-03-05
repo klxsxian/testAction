@@ -74,7 +74,8 @@ with Flow("dbtTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
     db_credentials = get_dbt_credentials(postgres_user, postgres_pass)
 
     dbt_run = dbt(
-        command="dbt run", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
+        #command="dbt run", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
+        command="dbt run --models state:modified+ --state ./prd_manifest --full-refresh", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
     )
 
     dbt_run_out = print_dbt_output(dbt_run)
