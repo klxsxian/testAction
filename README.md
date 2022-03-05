@@ -51,8 +51,15 @@ pip install -U cos-python-sdk-v5
         step3、再次执行：执行sqlfluff lint ./models   
         结果：校验通过，说明sqlfluff根据配置的规则，进行了修复
 
-### 7、sqlfluff github cicd校验
+### 7、sqlfluff github action测试
     7.1 在workflows目录新建sqlfluff_lint_models.yml
  
-### dbt安装
+### 8、sqlfluff dbt github action测试
     pip install dbt-postgres
+
+### 9、great_expectation 体验
+    安装依赖包
+    pip install great_expectations
+    查看版本
+    great_expectations --version
+    
