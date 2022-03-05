@@ -2,18 +2,18 @@
 import prefect
 from prefect import task, Flow, Parameter
 from prefect.tasks.dbt.dbt import DbtShellTask
+from prefect.storage import GitHub
 from prefect.triggers import all_finished
 from prefect.run_configs import LocalRun
-from prefect.tasks.secrets import PrefectSecret
-from prefect.storage import GitHub
 import pygit2
+import shutil
+from prefect.tasks.secrets import PrefectSecret
 
 DBT_PROJECT = "testAction"
 STORAGE = GitHub(
     repo="klxsxian/testAction",
     path=f"flows/dbtTest.py",
     access_token_secret="GITHUB_ACCESS_TOKEN",
-    # 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
 )
 
 @task
@@ -24,7 +24,7 @@ def say_hello():
 dbt = DbtShellTask(
     return_all=True,
     profile_name="profiles",
-    profiles_dir="../ci_profiles",
+    profiles_dir="ci_profiles/",
     environment="dev",
     overwrite_profiles=True,
     log_stdout=True,
