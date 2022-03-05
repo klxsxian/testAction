@@ -616,7 +616,6 @@ dmypy.json
 /share/jupyter/kernels/python3/kernel.json
 /share/jupyter/kernels/python3/logo-32x32.png
 /share/jupyter/kernels/python3/logo-64x64.png
-/temp/manifest.json
 /share/jupyter/nbconvert/templates/base/mathjax.html.j2
 /share/icons/hicolor/scalable/apps/notebook.svg
 /share/jupyter/nbconvert/templates/base/null.j2
