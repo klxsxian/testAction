@@ -30,7 +30,8 @@ select
     p.payment_id,
     p.amount as payment_amount,
     p.gmt_created as payment_gmt_created,
-    p.gmt_updated as payment_gmt_updated
+    p.gmt_updated as payment_gmt_updated,
+    TO_CHAR(now(), 'YYYY-MM-DD HH:MI:SS')  as updateTime
 
 from orders
 left join member on orders.member_id = member.member_id

@@ -11,11 +11,9 @@ seed-paths: ["data"]
 macro-paths: ["macros"]
 
 target-path: "target"
-#clean-targets:
-#  - "target"
-#  - "dbt_modules"
-#  - "logs"
-#  -
+clean-targets:
+  - "target"
+  - "logs"
 
 models:
   testAction:

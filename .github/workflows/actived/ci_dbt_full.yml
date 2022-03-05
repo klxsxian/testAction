@@ -77,9 +77,10 @@ jobs:
         dbt test --profiles-dir ./ci_profiles
 
     - name: check run_results.json
+      shell: bash -l {0}
       run: |
         pwd
-        ls ./target |grep *.json
+        ls ./target
 
     - name: Upload COS
       uses: zkqiang/tencent-cos-action@v0.1.0

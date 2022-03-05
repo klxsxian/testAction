@@ -1,0 +1,53 @@
+name: Test prefect dbt
+
+on: pull_request
+
+
+jobs:
+  sqlfluff-lint-models:
+    # runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    environment:
+      name: env
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['ubuntu-latest']
+        python-version: [3.8]
+
+    steps:
+      - name: Checkout PR by removing the merge into main
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+
+      - name: Install DBT
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-postgres
+          pip install pygit2
+          dbt deps
+
+      - name: Install prefect
+        run: |
+          python -m pip install --upgrade pip
+          pip install prefect[gitlab,dateutil,dask,distributed,great-expectations,pandas]
+
+      - name: login prefect cloud
+        run: |
+          prefect backend cloud
+          prefect auth login --key pcu_BALmdcZHkFBm0Hyw3s1EjbE7YFpNmJ0qYQ5N
+
+      - name: start agent backend
+        run: |
+          nohup prefect agent local start -l myAgentLable > agent.log 2>&1 &
+
+      - name: register flow
+        run: |
+          pwd
+          ls
+          prefect register --project dbt_tutorial -p ./flows/dbtTest.py -n "dbtTest" -l "myAgentLable"
+
+      - name: run prefect with dbt
+        run: |
+          prefect run -n "dbtTest" --label "myAgentLable"
