@@ -65,7 +65,7 @@ with Flow("dbtTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
     dbt_repo = Parameter(
         "dbt_repo_url", default="https://github.com/klxsxian/testAction"
     )
-    dbt_repo_branch = Parameter("dbt_repo_branch", default="dev")
+    dbt_repo_branch = Parameter("dbt_repo_branch", default=None)
     pull_task = pull_dbt_repo(dbt_repo, dbt_repo_branch)
     del_task.set_downstream(pull_task)
 
