@@ -28,7 +28,7 @@ dbt = DbtShellTask(
     environment="dev",
     overwrite_profiles=True,
     log_stdout=True,
-    helper_script=f"cd {DBT_PROJECT}",
+    helper_script=f"cd {DBT_PROJECT} && dbt deps",
     log_stderr=True,
     dbt_kwargs={
         "type": "postgres",
