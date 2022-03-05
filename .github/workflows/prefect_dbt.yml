@@ -53,6 +53,5 @@ jobs:
           prefect run -n "dbtTest" --label "myAgentLable"
 
       - name: Wait for the process to finish
-        run: |
-          run: sleep 300s
-          shell: bash
+        run: sleep 30s
+        shell: bash
