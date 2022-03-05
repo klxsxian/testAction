@@ -75,7 +75,7 @@ with Flow("dbtTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
 
     dbt_run = dbt(
         #command="dbt run", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
-        command="dbt run --models state:modified+ --state ./prd_manifest --full-refresh", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
+        command="dbt run --models state:modified+ --state prd_manifest/ --full-refresh", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
     )
 
     dbt_run_out = print_dbt_output(dbt_run)
