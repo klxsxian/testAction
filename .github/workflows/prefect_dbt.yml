@@ -1,4 +1,4 @@
-name: Test deployment from a PR
+name: Test prefect dbt
 
 on: push
 
@@ -43,7 +43,7 @@ jobs:
 
       - name: register flow
         run: |
-          prefect register --project dbt_tutorial -p flows/dbtTest.py -n "dbtTest" -l "myAgentLable"
+          prefect register --project dbt_tutorial -p ./flows/dbtTest.py -n "dbtTest" -l "myAgentLable"
 
       - name: run prefect with dbt
         run: |
