@@ -82,7 +82,7 @@ jobs:
           prefect run -n "dbtTest" --label "myAgentLable"
 
       - name: Wait for the process to finish
-        run: sleep 180s
+        run: sleep 120s
         shell: bash
 
   Check-data-quality-by-great-expectation:
@@ -111,4 +111,5 @@ jobs:
         if: ${{ always() }}
         run: |
           pwd
+          cd uncommitted/data_docs
           ls
