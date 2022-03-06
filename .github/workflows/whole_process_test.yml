@@ -10,6 +10,8 @@ jobs:
       - name: Checkout PR by removing the merge into main
         id: Checkout-code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
 
       - name: Install dependencies
         id: Install-dependencies
