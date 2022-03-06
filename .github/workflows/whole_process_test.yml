@@ -113,7 +113,7 @@ jobs:
         if: ${{ always() }}
         run: |
           pwd
-          tree great_expectations/uncommitted/data_docs/local_site/ -d -L 2
+          tree great_expectations/uncommitted/data_docs/local_site/ -a -L 3
 
       - name: Upload COS
         if: ${{ always() }}
