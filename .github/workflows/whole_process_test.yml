@@ -40,6 +40,9 @@ jobs:
           pip install sqlfluff==0.9.1
           pip install sqlfluff-templater-dbt==0.9.1
           sqlfluff lint ${{ steps.get_files_to_lint.outputs.lintees }}
+          pip install dbt-postgres
+          pip install pygit2
+          dbt deps
 
   prefect-dbt-elt:
     needs: check-model-modified-to-lint
