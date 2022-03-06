@@ -6,3 +6,4 @@ select
     gmt_created,
     gmt_updated
 from source
+
