@@ -9,8 +9,8 @@
           "member_id",
           "name",
           "address",
-          "gmt_updated",
-          "gmt_created"
+          "gmt_created",
+          "gmt_updated"
         ]
       },
       "meta": {
