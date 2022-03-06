@@ -119,7 +119,7 @@ jobs:
         if: ${{ always() }}
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
-          args: upload -rs ./great_expectations/uncommitted/data_docs/local_site --include index.html local_site/
+          args: upload -r ./great_expectations/uncommitted/data_docs/local_site  local_site/
           secret_id: ${{ secrets.UPTOC_UPLOADER_KEYID }}
           secret_key: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
           bucket: zjw-cos-1302205113
