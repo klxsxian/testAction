@@ -31,12 +31,12 @@ datasources:
       class_name: SqlAlchemyExecutionEngine
       module_name: great_expectations.execution_engine
       credentials: ${db_creds}
-#        host: 124.221.124.73
-#        port: '15432'
-#        username: postgres
-#        password: jtw9k7frcB-72s^EI
-#        database: postgres
-#        schema_name: great_expectations
+#        host: <your-host>
+#        port: <your-port>
+#        username: <your-username>
+#        password: <your-password>
+#        database: <your-database>
+#        schema_name: <your-schema_name>
 #        drivername: postgresql
 config_variables_file_path: uncommitted/config_variables.yml
 
