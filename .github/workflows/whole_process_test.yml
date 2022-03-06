@@ -63,6 +63,8 @@ jobs:
           pip install prefect[gitlab,dateutil,dask,distributed,great-expectations,pandas]
           pip install dbt-postgres
           pip install pygit2
+          pip install dbt-postgres
+          pip install pygit2
           dbt deps
 
       - name: login prefect cloud
