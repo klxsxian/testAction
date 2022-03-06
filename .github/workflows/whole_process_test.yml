@@ -88,6 +88,8 @@ jobs:
   Check-data-quality-by-great-expectation:
     needs: prefect-dbt-elt
     runs-on: ubuntu-latest
+    environment:
+      name: env
     steps:
       - name: Checkout PR by removing the merge into main
         id: Checkout-code
@@ -111,15 +113,16 @@ jobs:
         if: ${{ always() }}
         run: |
           pwd
+          echo "cd great_expectations/uncommitted/data_docs/local_site"
           cd great_expectations/uncommitted/data_docs/local_site
-          ls
+          tree -d -L 1
 
       - name: Upload COS
         if: ${{ always() }}
         uses: zkqiang/tencent-cos-action@v0.1.0
         with:
           args: upload -rs great_expectations/uncommitted/data_docs/local_site --include index.html local_site$RANDOM/
-          secret_id: ${{ secrets.UPTOC_UPLOADER_KEYID }}
-          secret_key: ${{ secrets.UPTOC_UPLOADER_KEYSECRET }}
+          secret_id: AKIDhZoprtPdeOwDBPtVP7VKs5ct6QYhml1E
+          secret_key: dKo8D3kCRbaMyLVQDrOrAD0c1A7vWqgI
           bucket: zjw-cos-1302205113
           region: ap-guangzhou
