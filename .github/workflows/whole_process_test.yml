@@ -108,6 +108,7 @@ jobs:
           great_expectations checkpoint run myfirstCheckpoint
 
       - name: show current director
+        if: ${{ always() }}
         run: |
           pwd
           ls
