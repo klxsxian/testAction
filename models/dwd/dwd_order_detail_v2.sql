@@ -6,38 +6,38 @@
     )
 }}
 
-with
-orders as ( select * from {{ref('stg_order')}}
+WITH
+orders AS ( SELECT * FROM {{ref('stg_order')}}
 ),
 
-member as ( select * from {{ref('stg_members')}}
+member AS ( SELECT * FROM {{ref('stg_members')}}
 ),
 
-payment as ( select * from {{ref('stg_payment')}}
+payment AS ( SELECT * FROM {{ref('stg_payment')}}
 )
 
-select
+SELECT
     --
     orders.order_id,
     orders.member_id,
-    orders.gmt_created as order_gmt_created,
-    orders.gmt_updated as order_gmt_update,
+    orders.gmt_created AS order_gmt_created,
+    orders.gmt_updated AS order_gmt_update,
     orders.real_amount,
     --
     member.name,
     member.address,
     --
     p.payment_id,
-    p.amount as payment_amount,
-    p.gmt_created as payment_gmt_created,
-    p.gmt_updated as payment_gmt_updated,
-    TO_CHAR(now(), 'YYYY-MM-DD HH:MI:SS')  as updateTime
+    p.amount AS payment_amount,
+    p.gmt_created AS payment_gmt_created,
+    p.gmt_updated AS payment_gmt_updated,
+    TO_CHAR(NOW(), 'YYYY-MM-DD HH:MI:SS') AS updatetime
 
-from orders
-left join member on orders.member_id = member.member_id
-left join payment as p on orders.order_id = p.order_id
+FROM orders
+LEFT JOIN member ON orders.member_id = member.member_id
+LEFT JOIN payment AS p ON orders.order_id = p.order_id
 
 {% if is_incremental() %}
-where 1 = 1
-      and p.gmt_updated >= (select max(payment_gmt_updated) from {{ this }})
+WHERE 1 = 1
+      AND p.gmt_updated >= (SELECT MAX(payment_gmt_updated) FROM {{ this }})
     {% endif %}

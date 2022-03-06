@@ -1,8 +1,9 @@
-with source as ( select * from public.t_member )
-select
-    id as member_id,
+WITH source AS ( SELECT * FROM public.t_member )
+
+SELECT
+    id AS member_id,
     name,
     address,
     gmt_created,
     gmt_updated
-from source
+FROM source

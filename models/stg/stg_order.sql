@@ -1,10 +1,10 @@
-with source as ( select * from public.t_order )
+WITH source AS ( SELECT * FROM public.t_order )
 
-select
-    id as order_id,
+SELECT
+    id AS order_id,
     member_id,
     real_amount,
     status,
     gmt_created,
     gmt_updated
-from source
+FROM source
