@@ -61,3 +61,31 @@ jobs:
         if: steps.get_files_to_lint.outputs.lintees != ''
         run: |
           sqlfluff lint ${{ steps.get_files_to_lint.outputs.lintees }}
+
+  prefect-dbt-elt:
+    needs: check-model-modified-to-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: login prefect cloud
+        if: ${{ success() }}
+        run: |
+          prefect backend cloud
+          prefect auth login --key pcu_BALmdcZHkFBm0Hyw3s1EjbE7YFpNmJ0qYQ5N
+
+      - name: start agent backend
+        run: |
+          nohup prefect agent local start -l myAgentLable > agent.log 2>&1 &
+
+      - name: register flow
+        run: |
+          pwd
+          ls
+          prefect register --project dbt_tutorial -p ./flows/dbtTest.py -n "dbtTest" -l "myAgentLable"
+
+      - name: run prefect with dbt
+        run: |
+          prefect run -n "dbtTest" --label "myAgentLable"
+
+      - name: Wait for the process to finish
+        run: sleep 180s
+        shell: bash
