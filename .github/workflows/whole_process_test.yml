@@ -10,6 +10,7 @@ jobs:
       - name: Checkout PR by removing the merge into main
         id: Checkout-code
         uses: actions/checkout@v2
+
       - name: Install dependencies
         id: Install-dependencies
         shell: bash -l {0}
@@ -28,3 +29,35 @@ jobs:
           pip install dbt-postgres
           pip install pygit2
           dbt deps
+
+  check-model-modified-to-lint:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get changed files
+        if: ${{ success() }}
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.3
+        with:
+          output: ' '
+
+      - name: Get changed .sql files in /models to lint
+        id: get_files_to_lint
+        run: |
+          # Set the command in the $() brackets as an output to use in later steps
+          echo "::set-output name=lintees::$(
+          # Issue where grep regular expressions don't work as expected on the
+          # Github Actions shell, check models/ and analysis/ folders seperately
+          echo \
+          $(echo ${{ steps.get_file_changes.outputs.files }} |
+          tr -s ' ' '\n' |
+          grep -E '^models.*[.]sql$' |
+          tr -s '\n' ' ') \
+          )"
+
+      - name: Lint dbt models
+        id: lint
+        shell: bash -l {0}
+        if: steps.get_files_to_lint.outputs.lintees != ''
+        run: |
+          sqlfluff lint ${{ steps.get_files_to_lint.outputs.lintees }}
