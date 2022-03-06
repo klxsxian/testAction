@@ -64,8 +64,6 @@ jobs:
 
       - name: login prefect cloud
         run: |
-          pwd
-          ls
           prefect backend cloud
           prefect auth login --key pcu_BALmdcZHkFBm0Hyw3s1EjbE7YFpNmJ0qYQ5N
 
@@ -94,7 +92,7 @@ jobs:
       - name: Checkout PR by removing the merge into main
         id: Checkout-code
         uses: actions/checkout@v2
-        
+
       - name: Install dependencies
         if: ${{ success() }}
         id: Install-dependencies
@@ -108,3 +106,8 @@ jobs:
       - name: run great_expectation checkpoint
         run: |
           great_expectations checkpoint run myfirstCheckpoint
+
+      - name: show current director
+        run: |
+          pwd
+          ls
