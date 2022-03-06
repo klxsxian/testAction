@@ -4,24 +4,14 @@ on: push
 
 jobs:
 
-  prepare:
+  check-model-modified-to-lint:
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR by removing the merge into main
         id: Checkout-code
         uses: actions/checkout@v2
-      - name: show dir
-        run: |
-          pwd
-          ls
-  check-model-modified-to-lint:
-    needs: prepare
-    runs-on: ubuntu-latest
-    steps:
-      - name: show dir
-        run: |
-          pwd
-          ls
+        
       - name: Get changed files
         id: get_file_changes
         uses: trilom/file-changes-action@v1.2.3
@@ -56,10 +46,9 @@ jobs:
     needs: check-model-modified-to-lint
     runs-on: ubuntu-latest
     steps:
-      - name: show dir
-        run: |
-          pwd
-          ls
+      - name: Checkout PR by removing the merge into main
+        id: Checkout-code
+        uses: actions/checkout@v2
 
       - name: Install DBT
         if: ${{ success() }}
@@ -103,6 +92,10 @@ jobs:
     needs: prefect-dbt-elt
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout PR by removing the merge into main
+        id: Checkout-code
+        uses: actions/checkout@v2
+        
       - name: Install dependencies
         if: ${{ success() }}
         id: Install-dependencies
