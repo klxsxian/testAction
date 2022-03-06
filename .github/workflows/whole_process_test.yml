@@ -113,9 +113,7 @@ jobs:
         if: ${{ always() }}
         run: |
           pwd
-          echo "cd great_expectations/uncommitted/data_docs/local_site"
-          cd great_expectations/uncommitted/data_docs/local_site
-          tree -d -L 1
+          tree great_expectations/uncommitted/data_docs/local_site/ -d -L 2
 
       - name: Upload COS
         if: ${{ always() }}
