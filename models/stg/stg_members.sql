@@ -5,6 +5,4 @@ select
     address,
     gmt_created,
     gmt_updated
-
 from source
-
