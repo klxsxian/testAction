@@ -52,7 +52,7 @@ jobs:
           sqlfluff lint ${{ steps.get_files_to_lint.outputs.lintees }}
 
   prefect-dbt-elt:
-    needs: prefect invoke dbt task to perform etl
+    needs: check-model-modified-to-lint
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
@@ -90,7 +90,7 @@ jobs:
         shell: bash
 
   Check-data-quality-by-great-expectation:
-    needs: Check data quality with expectation
+    needs: prefect-dbt-elt
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
