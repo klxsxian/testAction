@@ -20,3 +20,6 @@ models:
     materialized: table
     staging:
       materialized: view
+vars:
+  start_date: '20220526'
+  end_date: '20220526'
