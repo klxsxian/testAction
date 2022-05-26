@@ -43,7 +43,8 @@ dbt = DbtShellTask(
 
 @task
 def get_dbt_credentials(user_name: str, password: str):
-    return {"user": user_name, "password": password}
+    return {"user": user_name, "password": password,
+            "start_date": "2022-01-02 00:00:00", "end_date": "2022-01-03 00:00:00"}
 
 @task(trigger=all_finished)
 def print_dbt_output(output):
@@ -78,11 +79,11 @@ with Flow("dbtTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
 
     #dbt run --models dwd.dwd_payment_detail  --profiles-dir ci_profiles/ --vars '{start_date:"20220101", end_date:"20220102"}'
 
-    if start_date is not None:
-        dbtKwargs["start_date"] = start_date
-
-    if end_date is not None:
-        dbtKwargs["end_date"] = end_date
+    # if start_date is not None:
+    #     dbtKwargs["start_date"] = start_date
+    #
+    # if end_date is not None:
+    #     dbtKwargs["end_date"] = end_date
 
     dbt_run = dbt(
         #command="dbt run", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
