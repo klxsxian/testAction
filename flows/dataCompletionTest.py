@@ -41,14 +41,14 @@ dbt = DbtShellTask(
     },
 )
 
+logger = prefect.context.get("logger")
+
 @task
 def get_dbt_credentials(user_name: str, password: str):
-    return {"user": user_name, "password": password,
-            "start_date": "2022-01-02 00:00:00", "end_date": "2022-01-03 00:00:00"}
+    return {"user": user_name, "password": password}
 
 @task(trigger=all_finished)
 def print_dbt_output(output):
-    logger = prefect.context.get("logger")
     for line in output:
         logger.info(line)
 
@@ -60,38 +60,28 @@ def pull_dbt_repo(repo_url: str, branch: str = None):
 def delete_dbt_folder_if_exists():
     shutil.rmtree(DBT_PROJECT, ignore_errors=True)
 
-
-with Flow("dbtTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
+with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
     del_task = delete_dbt_folder_if_exists()
-    dbt_repo = Parameter(
-        "dbt_repo_url", default="https://github.com/klxsxian/testAction"
-    )
+    dbt_repo = Parameter("dbt_repo_url", default="https://github.com/klxsxian/testAction")
     dbt_repo_branch = Parameter("dbt_repo_branch", default=None)
-    # start_date = Parameter("start_date", default=None)
-    # end_date = Parameter("end_date", default=None)
+
     pull_task = pull_dbt_repo(dbt_repo, dbt_repo_branch)
     del_task.set_downstream(pull_task)
 
     postgres_user = PrefectSecret("POSTGRES_USER")
     postgres_pass = PrefectSecret("POSTGRES_PASS")
     db_credentials = get_dbt_credentials(postgres_user, postgres_pass)
-    dbtKwargs = db_credentials
 
-    #dbt run --models dwd.dwd_payment_detail  --profiles-dir ci_profiles/ --vars '{start_date:"20220101", end_date:"20220102"}'
-
-    # if start_date is not None:
-    #     dbtKwargs["start_date"] = start_date
-    #
-    # if end_date is not None:
-    #     dbtKwargs["end_date"] = end_date
-
+    # dbt run --models dwd.dwd_payment_detail  --profiles-dir ci_profiles/ --vars '{start_date:"20220101", end_date:"20220102"}'
+    start_date = Parameter(name="start_date", required=False)
+    end_date = Parameter(name="end_date", required=False)
+    # command = "dbt run --models dwd.dwd_payment_detail --vars {'start_date': '"+start_date+"', 'end_date': '"+end_date+"'}"
+    command="dbt run --models dwd.dwd_payment_detail --vars '{\"start_date\":\""+start_date+"\", \"end_date\":\""+end_date+"\"}'"
     dbt_run = dbt(
-        #command="dbt run", task_args={"name": "DBT Run"}, dbt_kwargs=db_credentials
-        command="dbt run --models dwd.dwd_payment_detail",
+        command=command,
         task_args={"name": "DBT Run"},
-        dbt_kwargs=dbtKwargs
+        dbt_kwargs=db_credentials
     )
 
     dbt_run_out = print_dbt_output(dbt_run)
-
     #say_hello()
