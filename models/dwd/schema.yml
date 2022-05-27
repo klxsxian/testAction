@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: dwd_order_detail_v2
+    columns:
+      - name: payment_amount
+        tests:
+          - not_null
+      - name: name
+        tests:
+          - accepted_values:
+              values: ['李四']
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('orders')
+              field: id
