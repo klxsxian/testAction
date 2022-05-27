@@ -92,6 +92,5 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
         dbt_kwargs=db_credentials
     )
 
-
     dbt_run_out = print_dbt_output(dbt_run)
     #say_hello()
