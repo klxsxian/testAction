@@ -62,10 +62,11 @@ def delete_dbt_folder_if_exists():
 
 
 @task
-def get_env():
+def get_vars():
     start_date = Parameter(name="start_date", required=False)
     end_date = Parameter(name="end_date", required=False)
-    return {"start_date": start_date, "end_date": end_date}
+    vars_dict = {"start_date": start_date, "end_date": end_date}
+    return " --vars " + vars_dict.__str__()
 
 with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
     del_task = delete_dbt_folder_if_exists()
@@ -80,14 +81,12 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
     db_credentials = get_dbt_credentials(postgres_user, postgres_pass)
 
     # dbt run --models dwd.dwd_payment_detail  --profiles-dir ci_profiles/ --vars '{start_date:"20220101", end_date:"20220102"}'
-    # env = {"start_date": "2022-01-02 00:00:00", "end_date": "2022-01-03 00:00:00"}
-    #env = get_env("2022-01-02 00:00:00", "2022-01-03 00:00:00")
+    vars_str = get_vars()
 
-    environment_variables = get_env()
-    #logger.info(environment_variables)
+    command = "dbt run --models dwd.dwd_payment_detail " + vars_str
 
     dbt_run = dbt(
-        command='dbt run --models dwd.dwd_payment_detail --vars '+environment_variables.__str__(),
+        command=command,
         task_args={"name": "DBT Run"},
         dbt_kwargs=db_credentials
     )
