@@ -38,10 +38,10 @@ jobs:
           ls
           prefect register --project dbt_tutorial -p ./flows/dataCompletionTest.py -n "dataCompletionTest" -l "myAgentLable"
 
-      - name: run prefect with dbt
-        run: |
-          prefect run -n "dataCompletionTest" --label "myAgentLable"
-
-      - name: Wait for the process to finish
-        run: sleep 120s
-        shell: bash
+#      - name: run prefect with dbt
+#        run: |
+#          prefect run -n "dataCompletionTest" --label "myAgentLable"
+#
+#      - name: Wait for the process to finish
+#        run: sleep 120s
+#        shell: bash
