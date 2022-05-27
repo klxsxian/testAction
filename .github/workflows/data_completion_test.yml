@@ -43,5 +43,5 @@ jobs:
 #          prefect run -n "dataCompletionTest" --label "myAgentLable"
 #
       - name: Wait for the process to finish
-        run: sleep 120s
+        run: sleep 150s
         shell: bash
