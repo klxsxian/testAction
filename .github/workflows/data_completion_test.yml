@@ -1,6 +1,6 @@
 name: Test a complete CICD process
 
-on: push_request
+on: push
 
 jobs:
   prefect-dbt-elt:
