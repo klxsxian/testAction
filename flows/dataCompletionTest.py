@@ -61,7 +61,7 @@ def delete_dbt_folder_if_exists():
     shutil.rmtree(DBT_PROJECT, ignore_errors=True)
 
 
-with Flow("dbtTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
+with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
     del_task = delete_dbt_folder_if_exists()
     dbt_repo = Parameter(
         "dbt_repo_url", default="https://github.com/klxsxian/testAction"
