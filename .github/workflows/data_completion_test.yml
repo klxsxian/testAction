@@ -40,7 +40,7 @@ jobs:
 
       - name: run prefect with dbt
         run: |
-          prefect run -n "dbtTest" --label "myAgentLable"
+          prefect run -n "dataCompletionTest" --label "myAgentLable"
 
       - name: Wait for the process to finish
         run: sleep 120s
