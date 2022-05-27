@@ -62,7 +62,9 @@ def delete_dbt_folder_if_exists():
 
 
 @task
-def get_env(start_date: str, end_date: str):
+def get_env():
+    start_date = Parameter(name="start_date", required=False)
+    end_date = Parameter(name="end_date", required=False)
     return {"start_date": start_date, "end_date": end_date}
 
 with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
@@ -80,14 +82,13 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
     # dbt run --models dwd.dwd_payment_detail  --profiles-dir ci_profiles/ --vars '{start_date:"20220101", end_date:"20220102"}'
     # env = {"start_date": "2022-01-02 00:00:00", "end_date": "2022-01-03 00:00:00"}
     #env = get_env("2022-01-02 00:00:00", "2022-01-03 00:00:00")
-    start_date = Parameter(name="start_date", required=False)
-    end_date = Parameter(name="end_date", required=False)
-    environment_variables = {"start_date": start_date, "end_date": end_date}
+
+    environment_variables = get_env()
     logger.info(environment_variables)
 
     dbt_run = dbt(
-        command="dbt run --models dwd.dwd_payment_detail --vars '{\"start_date\":\"2022-01-01\", \"end_date\":\"2022-01-02\"}'",
-        env=environment_variables,
+        command="dbt run --models dwd.dwd_payment_detail",
+        env={"start_date": "2022-01-01", "end_date": "2022-01-03"},
         task_args={"name": "DBT Run"},
         dbt_kwargs=db_credentials
     )
