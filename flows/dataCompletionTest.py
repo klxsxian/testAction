@@ -41,13 +41,14 @@ dbt = DbtShellTask(
     },
 )
 
+logger = prefect.context.get("logger")
+
 @task
 def get_dbt_credentials(user_name: str, password: str):
     return {"user": user_name, "password": password}
 
 @task(trigger=all_finished)
 def print_dbt_output(output):
-    logger = prefect.context.get("logger")
     for line in output:
         logger.info(line)
 
@@ -81,14 +82,16 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
     #env = get_env("2022-01-02 00:00:00", "2022-01-03 00:00:00")
     start_date = Parameter("start_date", default="")
     end_date = Parameter("end_date", default="")
-    env = {"start_date": start_date, "end_date": end_date}
+    environment_variables = {"start_date": start_date, "end_date": end_date}
+    logger.info(environment_variables)
 
     dbt_run = dbt(
         command="dbt run --models dwd.dwd_payment_detail",
+        env=environment_variables,
         task_args={"name": "DBT Run"},
-        env=env,
         dbt_kwargs=db_credentials
     )
+
 
     dbt_run_out = print_dbt_output(dbt_run)
     #say_hello()
