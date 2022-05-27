@@ -60,14 +60,6 @@ def pull_dbt_repo(repo_url: str, branch: str = None):
 def delete_dbt_folder_if_exists():
     shutil.rmtree(DBT_PROJECT, ignore_errors=True)
 
-
-@task
-def get_vars():
-    start_date = Parameter(name="start_date", required=False)
-    end_date = Parameter(name="end_date", required=False)
-    vars_dict = {"start_date": start_date, "end_date": end_date}
-    return " --vars " + vars_dict.__str__()
-
 with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as flow:
     del_task = delete_dbt_folder_if_exists()
     dbt_repo = Parameter("dbt_repo_url", default="https://github.com/klxsxian/testAction")
@@ -81,9 +73,9 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
     db_credentials = get_dbt_credentials(postgres_user, postgres_pass)
 
     # dbt run --models dwd.dwd_payment_detail  --profiles-dir ci_profiles/ --vars '{start_date:"20220101", end_date:"20220102"}'
-    vars_str = get_vars()
-
-    command = "dbt run --models dwd.dwd_payment_detail " + vars_str
+    start_date = Parameter(name="start_date", required=False)
+    end_date = Parameter(name="end_date", required=False)
+    command = "dbt run --models dwd.dwd_payment_detail --vars {'start_date': '"+start_date+"', 'end_date': '"+end_date+"'}"
 
     dbt_run = dbt(
         command=command,
