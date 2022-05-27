@@ -75,8 +75,8 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
     # dbt run --models dwd.dwd_payment_detail  --profiles-dir ci_profiles/ --vars '{start_date:"20220101", end_date:"20220102"}'
     start_date = Parameter(name="start_date", required=False)
     end_date = Parameter(name="end_date", required=False)
-    command = "dbt run --models dwd.dwd_payment_detail --vars {'start_date': '"+start_date+"', 'end_date': '"+end_date+"'}"
-
+    # command = "dbt run --models dwd.dwd_payment_detail --vars {'start_date': '"+start_date+"', 'end_date': '"+end_date+"'}"
+    command="dbt run --models dwd.dwd_payment_detail --vars '{\"start_date\":\""+start_date+"\", \"end_date\":\""+end_date+"\"}'"
     dbt_run = dbt(
         command=command,
         task_args={"name": "DBT Run"},
