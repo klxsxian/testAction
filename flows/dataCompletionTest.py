@@ -83,12 +83,12 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
     # env = {"start_date": "2022-01-02 00:00:00", "end_date": "2022-01-03 00:00:00"}
     #env = get_env("2022-01-02 00:00:00", "2022-01-03 00:00:00")
 
-    environment_variables = get_env()
-    logger.info(environment_variables)
+    #environment_variables = get_env()
+    #logger.info(environment_variables)
 
     dbt_run = dbt(
-        command="dbt run --models dwd.dwd_payment_detail",
-        env={"start_date": "2022-01-01", "end_date": "2022-01-03"},
+        command="dbt run --models dwd.dwd_payment_detail --vars '{\"start_date\":\"2022-01-01\", \"end_date\":\"2022-01-02\"}'",
+        # env={"start_date":"2022-01-01", "end_date":"2022-01-02"}, 这个参数不起作用，在command vars可以
         task_args={"name": "DBT Run"},
         dbt_kwargs=db_credentials
     )
