@@ -87,7 +87,7 @@ with Flow("dataCompletionTest", run_config=LocalRun(labels=["myAgentLable"])) as
     #logger.info(environment_variables)
 
     dbt_run = dbt(
-        command='dbt run --models dwd.dwd_payment_detail --vars '.join( environment_variables.__str__()),
+        command='dbt run --models dwd.dwd_payment_detail --vars '+env.__str__(),
         # env={"start_date":"2022-01-01", "end_date":"2022-01-02"}, 这个参数不起作用，在command vars可以
         task_args={"name": "DBT Run"},
         dbt_kwargs=db_credentials
